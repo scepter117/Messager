@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Messager Board</title>
+<style>
+  body { font-family: Georgia, serif; background: #f2f2f2; padding: 2rem; }
+  h2 { color: #333; }
+  #board { background: white; padding: 1rem; border-radius: 10px; max-width: 600px; margin: auto; }
+  #posts div { border-bottom: 1px solid #ddd; padding: .5rem 0; }
+  textarea { width: 100%; height: 80px; }
+  button { background: #444; color: white; border: none; padding: .5rem 1rem; border-radius: 5px; cursor: pointer; }
+  button:hover { background: #666; }
+</style>
+</head>
+<body>
+  <div id="board">
+    <h2>Message board project.</h2>
+    <div id="posts"></div>
+    <textarea id="text" placeholder="Password Locked"></textarea><br>
+    <button id="post">Post</button>
+  </div>
+
+  <script>
+    const key = 'messager_posts';
+    const posts = JSON.parse(localStorage.getItem(key) || '[]');
+
+    function render() {
+      document.getElementById('posts').innerHTML = posts
+        .map(p => `<div><strong>${p.user}</strong>: ${p.text.replace(/[&<>]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[s]))}</div>`)
+        .join('');
+    }
+
+    document.getElementById('post').onclick = () => {
+      const txt = document.getElementById('text');
+      const text = txt.value.trim();
+      if (!text) return;
+      const user = prompt("Who sends this missive, loyal subject?") || "Anonymous";
+      posts.unshift({ user, text });
+      localStorage.setItem(key, JSON.stringify(posts));
+      txt.value = '';
+      render();
+    };
+
+    render();
+  </script>
+</body>
+</html>
