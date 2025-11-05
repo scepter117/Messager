@@ -17,7 +17,7 @@
   <div id="board">
     <h2>Message board project.</h2>
     <div id="posts"></div>
-    <textarea id="text" placeholder="Password Locked"></textarea><br>
+    <textarea id="text" placeholder="Hello World..."></textarea><br>
     <button id="post">Post</button>
   </div>
 
@@ -35,7 +35,7 @@
       const txt = document.getElementById('text');
       const text = txt.value.trim();
       if (!text) return;
-      const user = prompt("Who sends this missive, loyal subject?") || "Anonymous";
+      const user = prompt("Who sends this?") || "Anonymous";
       posts.unshift({ user, text });
       localStorage.setItem(key, JSON.stringify(posts));
       txt.value = '';
